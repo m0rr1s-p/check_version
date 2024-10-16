@@ -17,7 +17,6 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v4
     - name: Check Version
       id: check-version
       shell: bash
