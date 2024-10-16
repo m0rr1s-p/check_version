@@ -21,4 +21,4 @@ runs:
     - name: Check Version
       id: check-version
       shell: bash
-      run: python3 ./check_version.py '${{ inputs.payload }}' '${{ inputs.version-number }}
+      run: python3 ./check_version.py '${{ inputs.payload }}' '${{ inputs.version-number }}'
