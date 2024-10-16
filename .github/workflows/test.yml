@@ -1,0 +1,37 @@
+name: test action
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  testAction:
+    runs-on: self-hosted
+    steps:
+      - uses: octokit/graphql-action@v2.3.2
+        id: get_versions
+        with:
+          query: |
+            query versionCheck($package:[String]) {
+              viewer {
+                packages(names:$package, first: 10) {
+                  nodes {
+                    versions(first:100){
+                      nodes {
+                        version
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          variables: |
+            package: com.mineralminds.protocol.microservice-protocols
+        env:
+          GITHUB_TOKEN: ${{ secrets.RO_TOKEN }}
+      - name: 'Get Version Of the Package'
+        uses: m0rr1s-p/check_version@main
+        id:  getVersion
+        with:
+          version-number: '0.11.3'
+          payload: ${{ steps.get_versions.outputs.data }}
+      - name: Just echo the output
+        run: echo '${{ steps.getVersion.outputs.result }}'
+

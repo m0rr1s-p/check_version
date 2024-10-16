@@ -1,0 +1,37 @@
+---
+name: "check_version"
+author: m0rr1s-p
+description: "A GitHub Action to check if a specific version of a package exists"
+inputs:
+  version-number:
+    description: "The version number to check for"
+    required: true
+    type: string
+  payload:
+    description: "The JSON payload from API"
+    required: true
+outputs:
+  result:
+    description: "Output of the check (true or nothing)"
+    value: ${{ steps.check-version.outputs.value }}
+runs:
+  using: "composite"
+  steps:
+    - name: Check Version
+      id: check-version
+      shell: python
+      run: |
+        import sys
+        import json
+        import os
+        
+        json_string = sys.argv[1]
+        json_data = json.loads(json_string)
+        versionToCheck = sys.argv[2]
+        def get_version(version):
+          for i in json_data["viewer"]["packages"]["nodes"][0]["versions"]["nodes"]:
+            if (i["version"] == version) and ("GITHUB_OUTPUT" in os.environ):
+              with open(os.environ["GITHUB_OUTPUT"], "w") as f :
+                f.write('value=true')
+        get_version(versionToCheck)
+
