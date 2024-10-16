@@ -19,7 +19,7 @@ runs:
   steps:
     - name: Check Version
       id: check-version
-      shell: python
+      shell: python3
       run: |
         import sys
         import json
