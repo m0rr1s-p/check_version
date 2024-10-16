@@ -19,7 +19,7 @@ runs:
   steps:
     - name: Check Version
       id: check-version
-      shell: python -u {0}
+      shell: python
       run: |
         import sys
         import json
