@@ -18,6 +18,9 @@ runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v4
+      with:
+        repository: m0rr1s-p/check_version
+        ref: main
     - name: Check Version
       id: check-version
       shell: bash
